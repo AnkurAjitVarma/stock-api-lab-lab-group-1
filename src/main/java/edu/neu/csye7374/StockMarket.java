@@ -2,6 +2,7 @@ package edu.neu.csye7374;
 
 import java.util.HashMap;
 import java.util.Map;
+import edu.neu.csye7374.Factories.*;
 
 public class StockMarket {
     private static StockMarket instance;
@@ -48,40 +49,19 @@ public class StockMarket {
     }
 
     public static void demo() {
-        StockMarket stockMarket = StockMarket.getInstance();
+        StockFactory appleFactory = new AppleFactory();
+        StockFactory msftFactory = new MSFTFactory();
+        StockFactory lazyAppleFactory = LazyAppleFactory.getInstance();
+        StockFactory eagerMSFTFactory = EagerMSFTFactory.getInstance();
 
-        System.out.println("======= MSFT Stock Bid Start ======= ");
-        Stock msftStock = new MSFT();
-        stockMarket.addStock(msftStock);
-        stockMarket.initializeBiding(msftStock, new String[]{"90", "100", "90", "80", "150", "155"});
-        System.out.println("\n");
+        Stock apple1 = appleFactory.createStock();
+        Stock msft1 = msftFactory.createStock();
+        Stock apple2 = lazyAppleFactory.createStock();
+        Stock msft2 = eagerMSFTFactory.createStock();
 
-        System.out.println("======= Adobe Stock Bid Start ======= ");
-        Stock adobeStock = new Adobe();
-        stockMarket.addStock(adobeStock);
-        stockMarket.initializeBiding(adobeStock, new String[]{"260", "280", "230", "275", "275", "290"});
-        System.out.println("\n");
-
-        System.out.println("======= Philips Stock Bid Start ======= ");
-        Stock philipsStock = new Philips();
-        stockMarket.addStock(philipsStock);
-        stockMarket.initializeBiding(philipsStock, new String[]{"120", "130", "130", "140", "150", "160"});
-        System.out.println("\n");
-
-        System.out.println("======= Tesla Stock Bid Start ======= ");
-        Stock teslaStock = new Tesla();
-        stockMarket.addStock(teslaStock);
-        stockMarket.initializeBiding(teslaStock, new String[]{"50", "60", "40", "80", "90", "100"});
-        System.out.println("\n");
-
-        System.out.println("======= Apple Stock Bid Start ======= ");
-        Stock appleStock = new Apple();
-        stockMarket.addStock(appleStock);
-        stockMarket.initializeBiding(appleStock, new String[]{"150", "160", "140", "180", "190", "200"});
-        System.out.println("\n");
-
-        System.out.println("======= All Stock Information ======= ");
-        stockMarket.showAllStocks();
-        System.out.println("\n");
+        System.out.println("Non-singleton Apple Factory:"+"\t"+apple1.getMetric());
+        System.out.println("Non-singleton Microsoft Factory:"+"\t"+msft1.getMetric());
+        System.out.println("Lazy Singleton Apple Factory"+"\t"+apple2.getMetric());
+        System.out.println("Eager Singleton Microsoft Factory"+"\t"+msft2.getMetric());
     }
 }
